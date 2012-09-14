@@ -1,3 +1,4 @@
+class UnknownTraversalError < ArgumentError; end;
 
 # Allows to formulate traversals by using predefined
 # named traversals. Also allows for method chaining.
@@ -48,12 +49,12 @@ class Jogger
   def method_missing(method, *args, &block)
     begin
       traversal_args = [method, args].flatten.compact
-      @current_traversal = Jogger.traverse(@current_traversal, *traversal_args)
-    rescue ArgumentError
+      @current_traversal = Jogger.traverse(@current_traversal, method, args)
+    rescue UnknownTraversalError => a
       begin
         @current_traversal = @current_traversal.send(method, *args, &block)
-      rescue NoMethodError
-        raise "Unknown traversal #{method}"
+      rescue NoMethodError => m
+        raise "Unknown traversal #{method}. From (#{a}) via (#{m}) (method_missing rocks)"
       end
     end
     self
@@ -70,8 +71,8 @@ class Jogger
   # @param opts [Object] Whatever you want to pass to the named traverser
   # @return [Object] The result of the traversal.
   def self.traverse(traversal_base, named_traversal, opts = nil)
-    raise ArgumentError, "Unknown traversal #{named_traversal}" unless valid_traversal?(named_traversal)
-    args = [named_traversal, traversal_base] + [opts].compact
+    raise UnknownTraversalError, "Unknown traversal #{named_traversal}" unless valid_traversal?(named_traversal)
+    args = [named_traversal, traversal_base] + [*opts].compact
     Jogger::NamedTraversals.send(*args)
   end
 

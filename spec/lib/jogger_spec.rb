@@ -15,8 +15,14 @@ class Jogger
       (current_traversal || 1) * x
     end
 
+    # A traversal with no args
     def self.no_argument_traverser(current_traversal)
       :worked
+    end
+
+    # A traversal with two args
+    def self.two_argument_traverser(current_traversal, x, y)
+      x+y
     end
 
     def self.method_missing_dummy(current_traversal)
@@ -45,11 +51,17 @@ describe Jogger do
     lambda do
       p = Jogger.new
       p.this_does_not_exist
-    end.should raise_error("Unknown traversal this_does_not_exist")
+    end.should raise_error("Unknown traversal this_does_not_exist. From (Unknown traversal this_does_not_exist) via (undefined method `this_does_not_exist' for nil:NilClass) (method_missing rocks)")
   end
 
   it "works for traversals without arguments" do
     Jogger.new.no_argument_traverser.result.should == :worked
+  end
+
+  it "works for traversals with two arguments" do
+    p = Jogger.new
+    p.two_argument_traverser(3,7)
+    p.result.should == 10
   end
 
   it "delegates method calls to the current traversal" do
