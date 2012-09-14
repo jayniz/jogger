@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "pacer-jogger"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jannis Hermanns"]
-  s.date = "2012-01-25"
+  s.date = "2012-09-14"
   s.description = "Allows to group traversal fragments/pipes to named traversals and call them like they were pacer pipes."
   s.email = "jannis@gmail.com"
   s.extra_rdoc_files = [
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    "CHANGELOG.markdown",
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
@@ -32,7 +33,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/jayniz/jogger"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.24"
   s.summary = "Pacer traversals for lazy people"
 
   if s.respond_to? :specification_version then
